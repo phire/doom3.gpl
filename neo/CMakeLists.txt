@@ -3,6 +3,8 @@ PROJECT (doom3)
 
 # Allow subdirectories to access other subdirectories by #include <>
 INCLUDE_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
+# Allow to link libs from there
+LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
 # game
 ADD_SUBDIRECTORY (game)
@@ -21,3 +23,6 @@ ADD_SUBDIRECTORY (idlib)
 
 # cm (collision model ?
 ADD_SUBDIRECTORY (cm)
+
+# main
+ADD_SUBDIRECTORY (sys)
