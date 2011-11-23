@@ -24,5 +24,8 @@ ADD_SUBDIRECTORY (idlib)
 # cm (collision model ?
 ADD_SUBDIRECTORY (cm)
 
+# TypeInfo (should we really build it ?)
+ADD_SUBDIRECTORY (TypeInfo)
+
 # main
 ADD_SUBDIRECTORY (sys)
