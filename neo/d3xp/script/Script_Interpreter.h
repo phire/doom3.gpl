@@ -124,7 +124,7 @@ idInterpreter::PopParms
 ID_INLINE void idInterpreter::PopParms( int numParms ) {
 	// pop our parms off the stack
 	if ( localstackUsed < numParms ) {
-		Error( "locals stack underflow\n" );
+		Error( ( char * )"locals stack underflow\n" );
 	}
 
 	localstackUsed -= numParms;
@@ -137,7 +137,7 @@ idInterpreter::Push
 */
 ID_INLINE void idInterpreter::Push( int value ) {
 	if ( localstackUsed + sizeof( int ) > LOCALSTACK_SIZE ) {
-		Error( "Push: locals stack overflow\n" );
+		Error( ( char * )"Push: locals stack overflow\n" );
 	}
 	*( int * )&localstack[ localstackUsed ]	= value;
 	localstackUsed += sizeof( int );
@@ -150,7 +150,7 @@ idInterpreter::PushString
 */
 ID_INLINE void idInterpreter::PushString( const char *string ) {
 	if ( localstackUsed + MAX_STRING_LEN > LOCALSTACK_SIZE ) {
-		Error( "PushString: locals stack overflow\n" );
+		Error( ( char * )"PushString: locals stack overflow\n" );
 	}
 	idStr::Copynz( ( char * )&localstack[ localstackUsed ], string, MAX_STRING_LEN );
 	localstackUsed += MAX_STRING_LEN;
