@@ -71,6 +71,5 @@ SET (game_SOURCES
 	Game_network.cpp
 	Moveable.cpp)
 
-ADD_EXECUTABLE (game
+ADD_LIBRARY (game
 	${game_SOURCES})
-
