@@ -1,6 +1,8 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 PROJECT (framework)
 
+FIND_PACKAGE (CURL REQUIRED)
+
 SET (framework_SOURCES
 	CVarSystem.cpp
 	CmdSystem.cpp
@@ -34,3 +36,6 @@ SET (framework_SOURCES
 
 ADD_LIBRARY (framework
 	${framework_SOURCES})
+
+TARGET_LINK_LIBRARIES (framework
+	${CURL_LIBRARIES})

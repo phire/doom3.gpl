@@ -23,7 +23,8 @@ SET (sys_LIBS
 
 # D3 libs
 LIST (APPEND sys_LIBS
-	idlib)
+	idlib
+	framework)
 
 TARGET_LINK_LIBRARIES (sys
-	${LIBS})
+	${sys_LIBS})
