@@ -18,3 +18,6 @@ ADD_SUBDIRECTORY (ui)
 
 # idlib
 ADD_SUBDIRECTORY (idlib)
+
+# cm (collision model ?
+ADD_SUBDIRECTORY (cm)
