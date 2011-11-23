@@ -12,3 +12,6 @@ ADD_SUBDIRECTORY (game)
 
 # renderer
 ADD_SUBDIRECTORY (renderer)
+
+# ui
+ADD_SUBDIRECTORY (ui)
