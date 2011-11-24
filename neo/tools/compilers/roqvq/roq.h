@@ -31,10 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "gdefs.h"
 #include "roqParam.h"
 #include "quaddefs.h"
-#define JPEG_INTERNALS
-extern "C" {
-#include "../../../renderer/jpeg-6/jpeglib.h"
-}
+
+#include "../../../jpeg/jmemdatasrc.h"
+
 #pragma once
 
 class codec;
