@@ -15,7 +15,7 @@ conf_filename='site.conf'
 serialized=['CC', 'CXX', 'JOBS', 'BUILD', 'IDNET_HOST', 'GL_HARDLINK', 'DEDICATED',
 	'DEBUG_MEMORY', 'LIBC_MALLOC', 'ID_NOLANADDRESS', 'ID_MCHECK', 'ALSA',
 	'TARGET_CORE', 'TARGET_GAME', 'TARGET_D3XP', 'TARGET_MONO', 'TARGET_DEMO', 'NOCURL',
-	'BUILD_ROOT', 'BUILD_GAMEPAK', 'BASEFLAGS', 'SILENT' ]
+	'BUILD_ROOT', 'BUILD_GAMEPAK', 'BASEFLAGS', 'SILENT', 'FORCE32']
 
 # global build mode ------------------------------
 
@@ -300,7 +300,7 @@ BASECPPFLAGS.append( '-fpermissive' )
 if ( g_os == 'Linux' ):
 	# gcc 4.x option only - only export what we mean to from the game SO
 	BASECPPFLAGS.append( '-fvisibility=hidden' )
-	if ( FORCE32 ):
+	if ( FORCE32 == '1'):
 		BASECPPFLAGS.append( '-m32' )
 		BASELINKFLAGS.append( '-m32' )
 		cpu = 'x86'
