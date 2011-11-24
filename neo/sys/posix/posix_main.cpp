@@ -390,7 +390,7 @@ int Sys_DLL_Load( const char *path ) {
 	if ( !handle ) {
 		Sys_Printf( "dlopen '%s' failed: %s\n", path, dlerror() );
 	}
-	return (int)handle;
+	return (long)handle;
 }
 
 /*
