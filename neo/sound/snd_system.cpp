@@ -321,7 +321,8 @@ void idSoundSystemLocal::Init() {
 	}
 
 	// make a 16 byte aligned finalMixBuffer
-	finalMixBuffer = (float *) ( ( ( (int)realAccum ) + 15 ) & ~15 );
+	// We use the std::ptrdiff_t type because it is the correct size on all platforms
+	finalMixBuffer = (float *) ( ( ( (std::ptrdiff_t)realAccum ) + 15 ) & ~15 );
 
 	graph = NULL;
 
