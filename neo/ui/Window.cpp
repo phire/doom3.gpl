@@ -1714,39 +1714,39 @@ void idWindow::PostParse() {
 idWindow::GetWinVarOffset
 ================
 */
-long idWindow::GetWinVarOffset( idWinVar *wv, drawWin_t* owner) {
-	long ret = -1;
+int idWindow::GetWinVarOffset( idWinVar *wv, drawWin_t* owner) {
+	int ret = -1;
 
 	if ( wv == &rect ) {
-		ret = (long)&( ( idWindow * ) 0 )->rect;
+		ret = (int)&( ( idWindow * ) 0 )->rect;
 	}
 
 	if ( wv == &backColor ) {
-		ret = (long)&( ( idWindow * ) 0 )->backColor;
+		ret = (int)&( ( idWindow * ) 0 )->backColor;
 	}
 
 	if ( wv == &matColor ) {
-		ret = (long)&( ( idWindow * ) 0 )->matColor;
+		ret = (int)&( ( idWindow * ) 0 )->matColor;
 	}
 
 	if ( wv == &foreColor ) {
-		ret = (long)&( ( idWindow * ) 0 )->foreColor;
+		ret = (int)&( ( idWindow * ) 0 )->foreColor;
 	}
 
 	if ( wv == &hoverColor ) {
-		ret = (long)&( ( idWindow * ) 0 )->hoverColor;
+		ret = (int)&( ( idWindow * ) 0 )->hoverColor;
 	}
 
 	if ( wv == &borderColor ) {
-		ret = (long)&( ( idWindow * ) 0 )->borderColor;
+		ret = (int)&( ( idWindow * ) 0 )->borderColor;
 	}
 
 	if ( wv == &textScale ) {
-		ret = (long)&( ( idWindow * ) 0 )->textScale;
+		ret = (int)&( ( idWindow * ) 0 )->textScale;
 	}
 
 	if ( wv == &rotate ) {
-		ret = (long)&( ( idWindow * ) 0 )->rotate;
+		ret = (int)&( ( idWindow * ) 0 )->rotate;
 	}
 
 	if ( ret != -1 ) {

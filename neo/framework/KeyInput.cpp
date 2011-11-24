@@ -30,9 +30,9 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 
 typedef struct {
-	const char	*name;
+	char	*name;
 	int		keynum;
-	const char	*strId;	// localized string id
+	char	*strId;	// localized string id
 } keyname_t;
 
 // keys that can be set without a special name
@@ -199,7 +199,7 @@ idKey *		keys = NULL;
 
 #ifdef ID_DOOM_LEGACY
 
-const char *		cheatCodes[] = {
+char *		cheatCodes[] = {
 	"iddqd",		// Invincibility
 	"idkfa",		// All weapons, keys, ammo, and 200% armor
 	"idfa",			// Reset ammunition

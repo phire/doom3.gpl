@@ -49,7 +49,7 @@ public:
 	idStr			name;
 
 	idWinVar *		GetWinVarByName(const char *_name);
-	long			GetWinVarOffset( idWinVar *wv, drawWin_t* owner);
+	int				GetWinVarOffset( idWinVar *wv, drawWin_t* owner);
 	size_t			Size();
 
 	idWindow*		GetParent ( void ) { return mParent; }

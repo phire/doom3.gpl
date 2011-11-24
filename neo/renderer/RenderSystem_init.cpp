@@ -315,7 +315,7 @@ PFNGLDEPTHBOUNDSEXTPROC                 qglDepthBoundsEXT;
 R_CheckExtension
 =================
 */
-bool R_CheckExtension( const char *name ) {
+bool R_CheckExtension( char *name ) {
 	if ( !strstr( glConfig.extensions_string, name ) ) {
 		common->Printf( "X..%s not found\n", name );
 		return false;
@@ -526,7 +526,7 @@ static void R_CheckPortableExtensions( void ) {
 	// check for minimum set
 	if ( !glConfig.multitextureAvailable || !glConfig.textureEnvCombineAvailable || !glConfig.cubeMapAvailable
 		|| !glConfig.envDot3Available ) {
-			common->Error(common->GetLanguageDict()->GetString( "#str_06780" ) );
+			common->Error( common->GetLanguageDict()->GetString( "#str_06780" ) );
 	}
 
  	// GL_EXT_depth_bounds_test
@@ -1462,7 +1462,7 @@ void R_EnvShot_f( const idCmdArgs &args ) {
 	renderView_t	ref;
 	viewDef_t	primary;
 	int			blends;
-	const char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
+	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
 		"_pz.tga", "_nz.tga" };
 	int			size;
 
@@ -1602,7 +1602,7 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 	renderView_t	ref;
 	viewDef_t	primary;
 	int			downSample;
-	const char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
+	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
 		"_pz.tga", "_nz.tga" };
 	int			outSize;
 	byte		*buffers[6];
