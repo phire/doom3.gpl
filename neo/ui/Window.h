@@ -230,7 +230,7 @@ public:
 
 	virtual idWinVar *GetWinVarByName	(const char *_name, bool winLookup = false, drawWin_t** owner = NULL);
 
-	int  GetWinVarOffset( idWinVar *wv, drawWin_t *dw );
+	long  GetWinVarOffset( idWinVar *wv, drawWin_t *dw );
 	float GetMaxCharHeight();
 	float GetMaxCharWidth();
 	void SetFont();
