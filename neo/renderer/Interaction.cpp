@@ -610,7 +610,7 @@ void idInteraction::UnlinkAndFree( void ) {
 	}
 
 	// put it back on the free list
-	renderWorld->interactionAllocator.Free( this );
+	renderWorld->interactionAllocator.Free(this);
 }
 
 /*

@@ -2130,7 +2130,7 @@ int lwGetPolygons5( idFile *fp, int cksize, lwPolygonList *plist, int ptoffset )
    lwPolygon *pp;
    lwPolVert *pv;
    unsigned char *buf, *bp;
-   int i, j, nv, nverts, npols;
+   long i, j, nv, nverts, npols;
 
 
    if ( cksize == 0 ) return 1;
@@ -2677,7 +2677,7 @@ int lwResolvePolySurfaces( lwPolygonList *polygon, lwTagList *tlist,
    lwSurface **surf, int *nsurfs )
 {
    lwSurface **s, *st;
-   int i, index;
+   long i, index;
 
    if ( tlist->count == 0 ) return 1;
 
@@ -2696,7 +2696,7 @@ int lwResolvePolySurfaces( lwPolygonList *polygon, lwTagList *tlist,
    }
 
    for ( i = 0; i < polygon->count; i++ ) {
-      index = ( int ) polygon->pol[ i ].surf;
+      index = ( long ) polygon->pol[ i ].surf;
       if ( index < 0 || index > tlist->count ) return 0;
       if ( !s[ index ] ) {
          s[ index ] = lwDefaultSurface();
@@ -2857,7 +2857,7 @@ Read polygon tags from a PTAG chunk in an LWO2 file.
 int lwGetPolygonTags( idFile *fp, int cksize, lwTagList *tlist, lwPolygonList *plist )
 {
 	unsigned int type;
-	int rlen = 0, i, j;
+	long rlen = 0, i, j;
 
 	set_flen( 0 );
 	type = getU4( fp );

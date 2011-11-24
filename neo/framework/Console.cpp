@@ -208,7 +208,7 @@ float SCR_DrawFPS( float y ) {
 		fps = 10000 * FPS_FRAMES / total;
 		fps = (fps + 5)/10;
 
-		s = va( "%ifps", fps );
+		s = (char*)va( "%ifps", fps );
 		w = strlen( s ) * BIGCHAR_WIDTH;
 
 		renderSystem->DrawBigStringExt( 635 - w, idMath::FtoiFast( y ) + 2, s, colorWhite, true, localConsole.charSetShader);
