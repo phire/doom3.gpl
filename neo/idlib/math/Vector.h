@@ -1757,7 +1757,8 @@ ID_INLINE void idVecX::SetData( int length, float *data ) {
 	if ( p && ( p < idVecX::tempPtr || p >= idVecX::tempPtr + VECX_MAX_TEMP ) && alloced != -1 ) {
 		Mem_Free16( p );
 	}
-	assert( ( ( (int) data ) & 15 ) == 0 ); // data must be 16 byte aligned
+	// We use the std::ptrdiff_t type because it is the correct size on all platforms
+	assert( ( ( (std::ptrdiff_t) data ) & 15 ) == 0 ); // data must be 16 byte aligned
 	p = data;
 	size = length;
 	alloced = -1;
