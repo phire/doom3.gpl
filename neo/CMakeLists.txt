@@ -1,6 +1,8 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
 PROJECT (doom3)
 
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
+
 # Options
 OPTION (DEDICATED "Dedicated" OFF)
 
@@ -11,12 +13,20 @@ LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
 SET (core_LIBRARIES)
 
+SET (CMAKE_CXX_FLAGS "-fpermissive")
+
 #################################################
 # PACKAGES
 #################################################
 
 # Removed internal CURL, let CMake find it
 FIND_PACKAGE (CURL REQUIRED)
+
+#Find Vorbis Libs
+FIND_PACKAGE (Vorbis REQUIRED)
+INCLUDE_DIRECTORIES (APPEND
+  ${VORBIS_INCLUDE_DIR}
+)
 
 # GL ?
 FIND_PACKAGE (OpenGL REQUIRED)
@@ -284,4 +294,9 @@ TARGET_LINK_LIBRARIES (doom3
 	game
 	idlib
 	pthread
+	Xxf86vm
+	${OPENGL_gl_LIBRARY}
+	${OPENGL_glu_LIBRARY}
+	${VORBIS_LIBRARIES}
+	${CURL_LIBRARIES}
 	${core_LIBRARIES})
