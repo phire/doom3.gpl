@@ -320,24 +320,24 @@ idHeap::Allocate16
 void *idHeap::Allocate16( const dword bytes ) {
 	byte *ptr, *alignedPtr;
 
-	ptr = (byte *) malloc( bytes + 16 + sizeof(size_t) );
+	ptr = (byte *) malloc( bytes + 16 + sizeof(std::ptrdiff_t) );
 	if ( !ptr ) {
 		if ( defragBlock ) {
 			idLib::common->Printf( "Freeing defragBlock on alloc of %i.\n", bytes );
 			free( defragBlock );
 			defragBlock = NULL;
-			ptr = (byte *) malloc( bytes + 16 + sizeof(size_t) );
+			ptr = (byte *) malloc( bytes + 16 + sizeof(std::ptrdiff_t) );
 			AllocDefragBlock();
 		}
 		if ( !ptr ) {
 			common->FatalError( "malloc failure for %i", bytes );
 		}
 	}
-	alignedPtr = (byte *) ( ( (size_t) ptr ) + 15 & ~15 );
-	if ( alignedPtr - ptr < sizeof(size_t) ) {
+	alignedPtr = (byte *) ( ( (std::ptrdiff_t) ptr ) + 15 & ~15 );
+	if ( alignedPtr - ptr < sizeof(std::ptrdiff_t) ) {
 		alignedPtr += 16;
 	}
-	*((long *)(alignedPtr - sizeof(size_t))) = (size_t) ptr;
+	*((long *)(alignedPtr - sizeof(std::ptrdiff_t))) = (std::ptrdiff_t) ptr;
 	return (void *) alignedPtr;
 }
 
@@ -347,7 +347,7 @@ idHeap::Free16
 ================
 */
 void idHeap::Free16( void *p ) {
-	free( (void *) *((int *) (( (byte *) p ) - 4)) );
+	free( (void *) *((std::ptrdiff_t *) (( (byte *) p ) - sizeof(std::ptrdiff_t))) );
 }
 
 /*
