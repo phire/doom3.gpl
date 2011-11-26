@@ -57,7 +57,7 @@ private:
 	unsigned int				formatspecIndex;
 	int							returnType;
 	int							numargs;
-	size_t						argsize;
+	int						argsize;
 	int							argOffset[ D_EVENT_MAXARGS ];
 	int							eventnum;
 	const idEventDef *			next;
@@ -74,7 +74,7 @@ public:
 	char						GetReturnType( void ) const;
 	int							GetEventNum( void ) const;
 	int							GetNumArgs( void ) const;
-	size_t						GetArgSize( void ) const;
+	int						GetArgSize( void ) const;
 	int							GetArgOffset( int arg ) const;
 
 	static int					NumEventCommands( void );
@@ -183,7 +183,7 @@ ID_INLINE int idEventDef::GetNumArgs( void ) const {
 idEventDef::GetArgSize
 ================
 */
-ID_INLINE size_t idEventDef::GetArgSize( void ) const {
+ID_INLINE int idEventDef::GetArgSize( void ) const {
 	return argsize;
 }
 

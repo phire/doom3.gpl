@@ -1320,7 +1320,7 @@ idVarDef *idProgram::AllocDef( idTypeDef *type, const char *name, idVarDef *scop
 		def->value.bytePtr = &variables[ numVariables ];
 		numVariables += def->TypeDef()->Size();
 		if ( numVariables > sizeof( variables ) ) {
-			throw idCompileError( va( "Exceeded global memory size (%d bytes)", sizeof( variables ) ) );
+			throw idCompileError( va( "Exceeded global memory size (%zu bytes)", sizeof( variables ) ) );
 		}
 
 		memset( def->value.bytePtr, 0, def->TypeDef()->Size() );
@@ -1755,13 +1755,13 @@ void idProgram::CompileStats( void ) {
 
 	gameLocal.Printf( "\nMemory usage:\n" );
 	gameLocal.Printf( "     Strings: %d, %d bytes\n", fileList.Num(), stringspace );
-	gameLocal.Printf( "  Statements: %d, %d bytes\n", statements.Num(), statements.MemoryUsed() );
+	gameLocal.Printf( "  Statements: %d, %zu bytes\n", statements.Num(), statements.MemoryUsed() );
 	gameLocal.Printf( "   Functions: %d, %d bytes\n", functions.Num(), funcMem );
 	gameLocal.Printf( "   Variables: %d bytes\n", numVariables );
 	gameLocal.Printf( "    Mem used: %d bytes\n", memused );
-	gameLocal.Printf( " Static data: %d bytes\n", sizeof( idProgram ) );
+	gameLocal.Printf( " Static data: %zu bytes\n", sizeof( idProgram ) );
 	gameLocal.Printf( "   Allocated: %d bytes\n", memallocated );
-	gameLocal.Printf( " Thread size: %d bytes\n\n", sizeof( idThread ) );
+	gameLocal.Printf( " Thread size: %zu bytes\n\n", sizeof( idThread ) );
 }
 
 /*
