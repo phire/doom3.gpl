@@ -1063,7 +1063,7 @@ void idConsoleLocal::DrawSolidConsole( float frac ) {
 
 	renderSystem->SetColor( idStr::ColorForIndex( C_COLOR_CYAN ) );
 
-	idStr version = va("%s.%i", ENGINE_VERSION, BUILD_NUMBER);
+	idStr version = va("%s.%i-%s", ENGINE_VERSION, BUILD_NUMBER, BUILD_HASH);
 	i = version.Length();
 
 	for ( x = 0; x < i; x++ ) {
