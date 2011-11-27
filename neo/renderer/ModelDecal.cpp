@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -350,7 +350,7 @@ void idRenderModelDecal::CreateDecal( const idRenderModel *model, const decalPro
 			} else {
 				for ( int j = 0; j < 3; j++ ) {
 					idVec3 dir;
-					float scale;
+					float scale = 0.0f;
 
 					fw[j] = stri->verts[stri->indexes[index+j]].xyz;
 					dir = fw[j].ToVec3() - localInfo.projectionOrigin;
@@ -405,7 +405,7 @@ idRenderModelDecal *idRenderModelDecal::RemoveFadedDecals( idRenderModelDecal *d
 		Free( decals );
 		return nextDecal;
 	}
-	
+
 	decalInfo = decals->material->GetDecalInfo();
 	minTime = time - ( decalInfo.stayTime + decalInfo.fadeTime );
 
@@ -465,7 +465,7 @@ void idRenderModelDecal::AddDecalDrawSurf( viewEntity_t *space ) {
 	int i, j, maxTime;
 	float f;
 	decalInfo_t	decalInfo;
-	
+
 	if ( tri.numIndexes == 0 ) {
 		return;
 	}
