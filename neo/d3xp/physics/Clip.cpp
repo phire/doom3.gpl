@@ -1584,6 +1584,8 @@ bool idClip::GetModelContactFeature( const contactInfo_t &contact, const idClipM
 				collisionModelManager->GetModelPolygon( handle, contact.modelFeature, winding );
 				break;
 			}
+			default:
+				break;
 		}
 	}
 

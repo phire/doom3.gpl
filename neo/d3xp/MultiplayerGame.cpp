@@ -1705,6 +1705,8 @@ void idMultiplayerGame::ExecuteVote( void ) {
 		case VOTE_NEXTMAP:
 			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "serverNextMap\n" );
 			break;
+		default:
+			break;
 	}
 }
 
@@ -1962,6 +1964,8 @@ void idMultiplayerGame::Run() {
 			}
 			break;
 		}
+		default:
+			break;
 	}
 }
 
