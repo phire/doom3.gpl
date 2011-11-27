@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -621,7 +621,7 @@ idAF::LoadConstraint
 bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 	idAFBody *body1, *body2;
 	idAngles angles;
-	idMat3 axis;	
+	idMat3 axis;
 
 	body1 = physicsObj.GetBody( fc->body1 );
 	body2 = physicsObj.GetBody( fc->body2 );
@@ -765,9 +765,7 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 			c->SetLimit( fc->minLength, fc->maxLength );
 			break;
 		}
-		default:
-			break;
-	}
+		default: break;
 	return true;
 }
 
@@ -1145,7 +1143,7 @@ void idAF::LoadState( const idDict &args ) {
 			body->SetWorldOrigin( origin );
 			body->SetWorldAxis( angles.ToMat3() );
 		} else {
-			gameLocal.Warning("Unknown body part %s in articulated figure %s", name.c_str(), this->name.c_str()); 
+			gameLocal.Warning("Unknown body part %s in articulated figure %s", name.c_str(), this->name.c_str());
 		}
 
 		kv = args.MatchPrefix( "body ", kv );

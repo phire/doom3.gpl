@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -260,7 +260,7 @@ void GetPointOutsideObstacles( const obstacle_t *obstacles, const int numObstacl
 			return;
 		}
 	}
-	gameLocal.Warning( "GetPointOutsideObstacles: no valid point found" ); 
+	gameLocal.Warning( "GetPointOutsideObstacles: no valid point found" );
 }
 
 /*
@@ -1338,7 +1338,7 @@ static float HeightForTrajectory( const idVec3 &start, float zVel, float gravity
 	t = zVel / gravity;
 	// maximum height of projectile
 	maxHeight = start.z - 0.5f * gravity * ( t * t );
-	
+
 	return maxHeight;
 }
 

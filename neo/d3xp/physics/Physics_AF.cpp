@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -4481,7 +4481,7 @@ idAFTree::Factor
 void idAFTree::Factor( void ) const {
 	int i, j;
 	idAFBody *body;
-	idAFConstraint *child;
+	idAFConstraint *child = NULL;
 	idMatX childI;
 
 	childI.SetData( 6, 6, MATX_ALLOCA( 6 * 6 ) );
@@ -5337,7 +5337,7 @@ void idPhysics_AF::Evolve( float timeStep ) {
 	idVec6 force;
 	idRotation rotation;
 	float vSqr, maxLinearVelocity, maxAngularVelocity;
-	
+
 	maxLinearVelocity = af_maxLinearVelocity.GetFloat() / timeStep;
 	maxAngularVelocity = af_maxAngularVelocity.GetFloat() / timeStep;
 
