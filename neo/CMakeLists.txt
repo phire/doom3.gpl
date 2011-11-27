@@ -13,6 +13,8 @@ LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
 SET (core_LIBRARIES)
 
+# Most of the source now builds without this flag, but there are a 
+# few lines in SoundWorld.cpp which I'm unsure how to fix.
 SET (CMAKE_CXX_FLAGS "-fpermissive")
 
 #################################################
