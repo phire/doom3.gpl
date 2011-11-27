@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -602,7 +602,7 @@ idTarget_Give::Event_Activate
 ================
 */
 void idTarget_Give::Event_Activate( idEntity *activator ) {
-	
+
 	if ( spawnArgs.GetBool( "development" ) && developer.GetInteger() == 0 ) {
 		return;
 	}
@@ -913,7 +913,7 @@ idTarget_SetInfluence::Event_ClearFlash
 */
 void idTarget_SetInfluence::Event_ClearFlash( float flash ) {
 	idPlayer *player = gameLocal.GetLocalPlayer();
-	player->playerView.Fade( vec4_zero , flash );		
+	player->playerView.Fade( vec4_zero , flash );
 }
 /*
 ================
@@ -924,7 +924,6 @@ void idTarget_SetInfluence::Event_GatherEntities() {
 	int i, listedEntities;
 	idEntity *entityList[ MAX_GENTITIES ];
 
-	bool demonicOnly = spawnArgs.GetBool( "effect_demonic" );
 	bool lights = spawnArgs.GetBool( "effect_lights" );
 	bool sounds = spawnArgs.GetBool( "effect_sounds" );
 	bool guis = spawnArgs.GetBool( "effect_guis" );
@@ -1073,7 +1072,7 @@ void idTarget_SetInfluence::Event_Activate( idEntity *activator ) {
 		if ( parm && *parm ) {
 			light->SetShader( parm );
 		}
-		
+
 		color = light->spawnArgs.GetVector( "_color" );
 		color = light->spawnArgs.GetVector( "color_demonic", color.ToString() );
 		colorTo.Set( color.x, color.y, color.z, 1.0f );
@@ -1133,7 +1132,7 @@ void idTarget_SetInfluence::Event_Activate( idEntity *activator ) {
 	if ( spawnArgs.GetBool( "effect_vision" ) ) {
 		parm = spawnArgs.GetString( "mtrVision" );
 		skin = spawnArgs.GetString( "skinVision" );
-		player->SetInfluenceView( parm, skin, spawnArgs.GetInt( "visionRadius" ), this ); 
+		player->SetInfluenceView( parm, skin, spawnArgs.GetInt( "visionRadius" ), this );
 	}
 
 	parm = spawnArgs.GetString( "mtrWorld" );
@@ -1794,7 +1793,6 @@ idTarget_FadeSoundClass::Event_RestoreVolume
 void idTarget_FadeSoundClass::Event_RestoreVolume() {
 	float fadeTime = spawnArgs.GetFloat( "fadeTime" );
 	float fadeDB = spawnArgs.GetFloat( "fadeDB" );
-	int fadeClass = spawnArgs.GetInt( "fadeClass" );
 	// restore volume
 	gameSoundWorld->FadeSoundClasses( 0, fadeDB, fadeTime );
 }
