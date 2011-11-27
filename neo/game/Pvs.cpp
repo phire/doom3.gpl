@@ -807,7 +807,7 @@ void idPVS::Init( void ) {
 	areaQueue = new int[numAreas];
 
 	areaVisBytes = ( ((numAreas+31)&~31) >> 3);
-	areaVisLongs = areaVisBytes/sizeof(long);
+	areaVisLongs = areaVisBytes/sizeof(int);
 
 	areaPVS = new byte[numAreas * areaVisBytes];
 	memset( areaPVS, 0xFF, numAreas * areaVisBytes );
@@ -815,7 +815,7 @@ void idPVS::Init( void ) {
 	numPortals = GetPortalCount();
 
 	portalVisBytes = ( ((numPortals+31)&~31) >> 3);
-	portalVisLongs = portalVisBytes/sizeof(long);
+	portalVisLongs = portalVisBytes/sizeof(int);
 
 	for ( int i = 0; i < MAX_CURRENT_PVS; i++ ) {
 		currentPVS[i].handle.i = -1;
