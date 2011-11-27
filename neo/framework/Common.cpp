@@ -193,7 +193,7 @@ private:
 	idStrList					warningList;
 	idStrList					errorList;
 
-	int							gameDLL;
+	size_t							gameDLL;
 
 	idLangDict					languageDict;
 
