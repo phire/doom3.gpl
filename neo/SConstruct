@@ -49,7 +49,7 @@ conf_filename='site.conf'
 serialized=['CC', 'CXX', 'JOBS', 'BUILD', 'IDNET_HOST', 'GL_HARDLINK', 'DEDICATED',
 	'DEBUG_MEMORY', 'LIBC_MALLOC', 'ID_NOLANADDRESS', 'ID_MCHECK', 'ALSA',
 	'TARGET_CORE', 'TARGET_GAME', 'TARGET_D3XP', 'TARGET_MONO', 'TARGET_DEMO', 'NOCURL',
-	'BUILD_ROOT', 'BUILD_GAMEPAK', 'BASEFLAGS', 'SILENT', 'FORCE32']
+	'BUILD_ROOT', 'BUILD_GAMEPAK', 'BASEFLAGS', 'SILENT']
 
 # global build mode ------------------------------
 
