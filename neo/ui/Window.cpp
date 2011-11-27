@@ -2763,7 +2763,7 @@ idWindow::EmitOp
 ================
 */
 
-int idWindow::EmitOp( int a, int b, wexpOpType_t opType, wexpOp_t **opp ) {
+size_t idWindow::EmitOp( size_t a, size_t b, wexpOpType_t opType, wexpOp_t **opp ) {
 	wexpOp_t *op;
 /*
 	// optimize away identity operations
@@ -2814,8 +2814,8 @@ int idWindow::EmitOp( int a, int b, wexpOpType_t opType, wexpOp_t **opp ) {
 idWindow::ParseEmitOp
 ================
 */
-int idWindow::ParseEmitOp( idParser *src, int a, wexpOpType_t opType, int priority, wexpOp_t **opp ) {
-	int b = ParseExpressionPriority( src, priority );
+size_t idWindow::ParseEmitOp( idParser *src, size_t a, wexpOpType_t opType, int priority, wexpOp_t **opp ) {
+	size_t b = ParseExpressionPriority( src, priority );
 	return EmitOp( a, b, opType, opp );  
 }
 
@@ -2827,9 +2827,9 @@ idWindow::ParseTerm
 Returns a register index
 =================
 */
-int idWindow::ParseTerm( idParser *src,	idWinVar *var, int component ) {
+size_t idWindow::ParseTerm( idParser *src,	idWinVar *var, int component ) {
 	idToken token;
-	int		a, b;
+	size_t		a, b;
 
 	src->ReadToken( &token );
 
@@ -2917,9 +2917,9 @@ Returns a register index
 =================
 */
 #define	TOP_PRIORITY 4
-int idWindow::ParseExpressionPriority( idParser *src, int priority, idWinVar *var, int component ) {
+size_t idWindow::ParseExpressionPriority( idParser *src, int priority, idWinVar *var, int component ) {
 	idToken token;
-	int		a;
+	size_t		a;
 
 	if ( priority == 0 ) {
 		return ParseTerm( src, var, component );
@@ -3000,7 +3000,7 @@ idWindow::ParseExpression
 Returns a register index
 ================
 */
-int idWindow::ParseExpression(idParser *src, idWinVar *var, int component) {
+size_t idWindow::ParseExpression(idParser *src, idWinVar *var, int component) {
 	return ParseExpressionPriority( src, TOP_PRIORITY, var );
 }
 
