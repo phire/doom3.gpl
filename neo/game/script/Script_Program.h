@@ -92,7 +92,7 @@ class idTypeDef {
 private:
 	etype_t						type;
 	idStr 						name;
-	int							size;
+	size_t						size;
 
 	// function types are more complex
 	idTypeDef					*auxType;					// return type
@@ -437,7 +437,7 @@ private:
 	idStr 										filename;
 	int											filenum;
 
-	int											numVariables;
+	size_t											numVariables;
 	byte										variables[ MAX_GLOBALS ];
 	idStaticList<byte,MAX_GLOBALS>				variableDefaults;
 	idStaticList<function_t,MAX_FUNCS>			functions;
