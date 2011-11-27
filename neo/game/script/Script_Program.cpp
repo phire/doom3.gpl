@@ -38,12 +38,12 @@ idTypeDef	type_namespace( ev_namespace, &def_namespace, "namespace", sizeof( voi
 idTypeDef	type_string( ev_string, &def_string, "string", MAX_STRING_LEN, NULL );
 idTypeDef	type_float( ev_float, &def_float, "float", sizeof( float ), NULL );
 idTypeDef	type_vector( ev_vector, &def_vector, "vector", sizeof( idVec3 ), NULL );
-idTypeDef	type_entity( ev_entity, &def_entity, "entity", sizeof( int * ), NULL );					// stored as entity number pointer
+idTypeDef	type_entity( ev_entity, &def_entity, "entity", sizeof( int ), NULL );					// stored as entity number pointer
 idTypeDef	type_field( ev_field, &def_field, "field", sizeof( void * ), NULL );
 idTypeDef	type_function( ev_function, &def_function, "function", sizeof( void * ), &type_void );
 idTypeDef	type_virtualfunction( ev_virtualfunction, &def_virtualfunction, "virtual function", sizeof( int ), NULL );
 idTypeDef	type_pointer( ev_pointer, &def_pointer, "pointer", sizeof( void * ), NULL );
-idTypeDef	type_object( ev_object, &def_object, "object", sizeof( int * ), NULL );					// stored as entity number pointer
+idTypeDef	type_object( ev_object, &def_object, "object", sizeof( int ), NULL );					// stored as entity number pointer
 idTypeDef	type_jumpoffset( ev_jumpoffset, &def_jumpoffset, "<jump>", sizeof( int ), NULL );		// only used for jump opcodes
 idTypeDef	type_argsize( ev_argsize, &def_argsize, "<argsize>", sizeof( int ), NULL );				// only used for function call and thread opcodes
 idTypeDef	type_boolean( ev_boolean, &def_boolean, "boolean", sizeof( int ), NULL );
