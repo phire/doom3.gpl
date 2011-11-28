@@ -1118,6 +1118,9 @@ void idAI::Think( void ) {
 				PlayChatter();
 				CheckBlink();
 				break;
+
+			default:
+				break;
 			}
 		}
 
@@ -2225,6 +2228,9 @@ bool idAI::GetMovePos( idVec3 &seekPos ) {
 	case MOVE_SLIDE_TO_POSITION :
 		seekPos = org;
 		return false;
+		break;
+
+	default:
 		break;
 	}
 

@@ -1964,6 +1964,8 @@ void idMultiplayerGame::Run() {
 			break;
 		default: break;
 		}
+		default:
+			break;
 	}
 }
 

@@ -2309,7 +2309,13 @@ bool idAI::GetMovePos( idVec3 &seekPos ) {
 		seekPos = org;
 		return false;
 		break;
+<<<<<<< HEAD
 	default: break;
+=======
+
+	default:
+		break;
+>>>>>>> warnings
 	}
 
 	if ( move.moveCommand == MOVE_TO_ENTITY ) {
