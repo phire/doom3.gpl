@@ -103,6 +103,9 @@ If you have questions concerning this license or the applicable additional terms
 #include <typeinfo>
 #include <errno.h>
 #include <math.h>
+#include <stdint.h> // Apparently this file is missing in earlier versions of Visual Studio. 
+		    // You will need to replace it with something like http://code.google.com/p/msinttypes/
+		    // I would do it myself, but I don't have visual studio setup to test it.
 
 //-----------------------------------------------------
 
