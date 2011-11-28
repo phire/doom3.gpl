@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 		}
 		counts[sides[i]]++;
 	}
-	
+
 	*front = *back = NULL;
 
 	// if coplanar, put on the front side if the normals match
@@ -401,7 +401,7 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 		}
 		counts[sides[i]]++;
 	}
-	
+
 	// if coplanar, put on the front side if the normals match
 	if ( !counts[SIDE_FRONT] && !counts[SIDE_BACK] ) {
 
@@ -784,7 +784,7 @@ idSurface::RayIntersection
 */
 bool idSurface::RayIntersection( const idVec3 &start, const idVec3 &dir, float &scale, bool backFaceCull ) const {
 	int i, i0, i1, i2, s0, s1, s2;
-	float d, s;
+	float d, s = 0.0f;
 	byte *sidedness;
 	idPluecker rayPl, pl;
 	idPlane plane;
