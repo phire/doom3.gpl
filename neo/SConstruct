@@ -9,6 +9,40 @@ import SCons
 sys.path.append( 'sys/scons' )
 import scons_utils
 
+# Nice coloured output, like cmake
+colors = {}
+colors['cyan']          = '\033[36m'
+colors['purple']        = '\033[35m'
+colors['blue']          = '\033[34m'
+colors['green']         = '\033[32m'
+colors['yellow']        = '\033[33m'
+colors['red']           = '\033[31m'
+colors['bright_cyan']   = '\033[96m'
+colors['bright_purple'] = '\033[95m'
+colors['bright_blue']   = '\033[94m'
+colors['bright_green']  = '\033[92m'
+colors['bright_yellow'] = '\033[93m'
+colors['bright_red']    = '\033[91m'
+colors['end']    = '\033[0m'
+
+#If the output is not a terminal, remove the colors
+if not sys.stdout.isatty():
+   for key, value in colors.iteritems():
+      colors[key] = ''
+
+compile_source_message = '-- %sBuilding CXX object $TARGET%s' % \
+   (colors['green'], colors['end'])
+compile_shared_source_message = '-- %sBuilding shared CXX object $TARGET%s' % \
+   (colors['green'], colors['end'])
+link_program_message = '%sLinking Program $TARGET%s' % \
+   (colors['red'], colors['end'])
+link_library_message = '%sLinking Static Library $TARGET%s' % \
+   (colors['red'], colors['end'])
+link_shared_library_message = '%sLinking Shared Library $TARGET%s' % \
+   (colors['red'], colors['end'])
+
+
+
 conf_filename='site.conf'
 # choose configuration variables which should be saved between runs
 # ( we handle all those as strings )
@@ -26,7 +60,10 @@ g_sdk = not os.path.exists( 'sys/scons/SConscript.core' )
 # help -------------------------------------------
 
 help_string = """
-Usage: scons [OPTIONS] [TARGET] [CONFIG]
+Usage: scons [--verbose] [OPTIONS] [TARGET] [CONFIG]
+
+--verbose
+	Show the raw commands being executed rather than the pretty coloured output
 
 [OPTIONS] and [TARGET] are covered in command line options, use scons -H
 
@@ -349,6 +386,15 @@ if ( ID_MCHECK == '1' ):
 	
 # create the build environements
 g_base_env = Environment( ENV = os.environ, CC = CC, CXX = CXX, LINK = LINK, CPPFLAGS = BASECPPFLAGS, LINKFLAGS = BASELINKFLAGS, CPPPATH = CORECPPPATH, LIBPATH = CORELIBPATH )
+#Coloured, less verboose output.
+AddOption("--verbose",action="store_true", dest="verbose_flag",default=False,help="verbose output")
+if not GetOption("verbose_flag"):
+	g_base_env['CXXCOMSTR'] = compile_source_message
+	g_base_env['SHCXXCOMSTR'] = compile_shared_source_message
+	g_base_env["ARCOMSTR"] = link_library_message
+	g_base_env["SHLINKCOMSTR"] = link_shared_library_message
+	g_base_env["LINKCOMSTR"] = link_program_message
+
 scons_utils.SetupUtils( g_base_env )
 
 g_env = g_base_env.Clone()

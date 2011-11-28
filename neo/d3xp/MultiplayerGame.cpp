@@ -1705,6 +1705,8 @@ void idMultiplayerGame::ExecuteVote( void ) {
 		case VOTE_NEXTMAP:
 			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "serverNextMap\n" );
 			break;
+		default:
+			break;
 	}
 }
 
@@ -1962,6 +1964,8 @@ void idMultiplayerGame::Run() {
 			}
 			break;
 		}
+		default:
+			break;
 	}
 }
 
@@ -4230,7 +4234,7 @@ idMultiplayerGame::GetTeamFlag
 ================
 */
 void idMultiplayerGame::FindTeamFlags( void ) {
-	char * flagDefs[2] =
+	const char * flagDefs[2] =
 	{
 		"team_CTF_redflag",
 		"team_CTF_blueflag"

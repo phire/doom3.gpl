@@ -93,8 +93,8 @@ public:
 	int					CurrentLine( void ) const;
 	const char			*CurrentFile( void ) const;
 
-	void				Error( char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void				Warning( char *fmt, ... ) const id_attribute((format(printf,2,3)));
+	void				Error( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
+	void				Warning( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
 	void				DisplayInfo( void ) const;
 
 	bool				BeginMultiFrameEvent( idEntity *ent, const idEventDef *event );
@@ -124,7 +124,7 @@ idInterpreter::PopParms
 ID_INLINE void idInterpreter::PopParms( int numParms ) {
 	// pop our parms off the stack
 	if ( localstackUsed < numParms ) {
-		Error( ( char * )"locals stack underflow\n" );
+		Error( "locals stack underflow\n" );
 	}
 
 	localstackUsed -= numParms;
@@ -137,7 +137,7 @@ idInterpreter::Push
 */
 ID_INLINE void idInterpreter::Push( int value ) {
 	if ( localstackUsed + sizeof( int ) > LOCALSTACK_SIZE ) {
-		Error( ( char * )"Push: locals stack overflow\n" );
+		Error( "Push: locals stack overflow\n" );
 	}
 	*( int * )&localstack[ localstackUsed ]	= value;
 	localstackUsed += sizeof( int );
@@ -150,7 +150,7 @@ idInterpreter::PushString
 */
 ID_INLINE void idInterpreter::PushString( const char *string ) {
 	if ( localstackUsed + MAX_STRING_LEN > LOCALSTACK_SIZE ) {
-		Error( ( char * )"PushString: locals stack overflow\n" );
+		Error( "PushString: locals stack overflow\n" );
 	}
 	idStr::Copynz( ( char * )&localstack[ localstackUsed ], string, MAX_STRING_LEN );
 	localstackUsed += MAX_STRING_LEN;
