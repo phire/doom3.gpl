@@ -766,6 +766,7 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 			break;
 		}
 		default: break;
+	}
 	return true;
 }
 
