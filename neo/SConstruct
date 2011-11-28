@@ -289,8 +289,6 @@ if ( g_sdk or SDK != '0' ):
 
 # general configuration, target selection --------
 
-g_build = BUILD_ROOT + '/' + BUILD
-
 SConsignFile( 'scons.signatures' )
 
 if ( GL_HARDLINK != '0' ):
@@ -383,6 +381,8 @@ if ( ID_NOLANADDRESS != '0' ):
 	
 if ( ID_MCHECK == '1' ):
 	BASECPPFLAGS.append( '-DID_MCHECK' )
+
+g_build = BUILD_ROOT + '/' + BUILD + "/" + cpu + "/"
 	
 # create the build environements
 g_base_env = Environment( ENV = os.environ, CC = CC, CXX = CXX, LINK = LINK, CPPFLAGS = BASECPPFLAGS, LINKFLAGS = BASELINKFLAGS, CPPPATH = CORECPPPATH, LIBPATH = CORELIBPATH )
