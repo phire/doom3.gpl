@@ -850,7 +850,7 @@ void CreateEventCallbackHandler( void ) {
 					string1 += "const float";
 					string2 += va( "*( float * )&data[ %d ]", k );
 				} else {
-					string1 += "const int";
+					string1 += "const intptr_t";
 					string2 += va( "data[ %d ]", k );
 				}
 
