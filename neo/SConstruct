@@ -348,7 +348,7 @@ if ( BUILD == 'debug-all' ):
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '1'
 elif ( BUILD == 'debug' ):
-	OPTCPPFLAGS = [ '-g', '-O1', '-D_DEBUG', '-fkeep-inline-functions']
+	OPTCPPFLAGS = [ '-g', '-O1', '-D_DEBUG']
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '1'
 elif ( BUILD == 'release' ):
