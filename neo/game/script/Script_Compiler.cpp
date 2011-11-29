@@ -960,8 +960,8 @@ idVarDef *idCompiler::EmitFunctionParms( int op, idVarDef *func, int startarg, i
 				Error( "type mismatch on parm %i of call to '%s'", arg + 1, func->Name() );
 			}
 
-			if ( funcArg->Type() == ev_object ) {
-				size += type_object.Size();
+			if ( funcArg->Type() == ev_object or funcArg->Type() == ev_entity) {
+				size += sizeof(int);
 			} else {
 				size += funcArg->Size();
 			}
