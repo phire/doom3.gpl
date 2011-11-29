@@ -741,7 +741,9 @@ void idInterpreter::CallEvent( const function_t *func, int argsize ) {
 	}
 
 	format = evdef->GetArgFormat();
-	for( j = 0, i = 0, pos = type_object.Size(); ( pos < argsize ) || ( format[ i ] != 0 ); i++ ) {
+	// The sizeof(int) is a event entity that is the first (implied?) argument.
+	// It is stored on the stack as an int, not a pointer to one.
+	for( j = 0, i = 0, pos = sizeof(int); ( pos < argsize ) || ( format[ i ] != 0 ); i++ ) {
 		switch( format[ i ] ) {
 		case D_EVENT_INTEGER :
 			var.intPtr = ( int * )&localstack[ start + pos ];

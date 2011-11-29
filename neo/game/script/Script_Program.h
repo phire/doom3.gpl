@@ -69,6 +69,7 @@ public:
 	int 				locals; 			// total ints of parms + locals
 	int					filenum; 			// source file defined in
 	idList<int>			parmSize;
+	idList<idVarDef *>		stackVars;
 };
 
 typedef union eval_s {

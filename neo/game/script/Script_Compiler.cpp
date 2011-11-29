@@ -1128,7 +1128,8 @@ idVarDef *idCompiler::ParseEventCall( idVarDef *object, idVarDef *funcDef ) {
 		EmitPush( object, object->TypeDef() );
 	}
 
-	return EmitFunctionParms( OP_EVENTCALL, funcDef, 0, type_object.Size(), NULL );
+	// Before the script is called, an entity number (as an int) is pushed onto the stack
+	return EmitFunctionParms( OP_EVENTCALL, funcDef, 0, sizeof(int), NULL );
 }
 
 /*
@@ -2153,8 +2154,9 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 	func->parmSize.SetNum( numParms );
 	for( i = 0; i < numParms; i++ ) {
 		parmType = type->GetParmType( i );
-		if ( parmType->Inherits( &type_object ) ) {
-			func->parmSize[ i ] = type_object.Size();
+		if ( parmType->Inherits( &type_object ) or parmType->Type() == ev_entity) {
+			// objects/enties only have their entity number on the stack, as an int
+			func->parmSize[ i ] = sizeof(int);
 		} else {
 			func->parmSize[ i ] = parmType->Size();
 		}
@@ -2199,6 +2201,17 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 	// parse regular statements
 	while( !CheckToken( "}" ) ) {
 		ParseStatement();
+	}
+
+	// Allocate stack variables, now that they should have settled into their final types.
+	for (int i = 0; i < func->stackVars.Num(); i++) {
+		func->stackVars[ i ]->value.stackOffset = func->locals;
+		if ( func->stackVars[ i ]->TypeDef()->Inherits( &type_object ) || func->stackVars[ i ]->Type() == ev_entity) {
+			// objects/enties only have their entity number on the stack, as an int
+			func->locals += sizeof(int);
+		} else {
+			func->locals += func->stackVars[ i ]->TypeDef()->Size();
+		}
 	}
 
 	// check if we should call the super class destructor
