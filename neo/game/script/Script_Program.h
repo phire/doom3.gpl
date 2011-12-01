@@ -26,6 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
+#include <utility>
+
 #ifndef __SCRIPT_PROGRAM_H__
 #define __SCRIPT_PROGRAM_H__
 
@@ -70,6 +72,7 @@ public:
 	int					filenum; 			// source file defined in
 	idList<int>			parmSize;
 	idList<idVarDef *>		stackVars;
+	idList<idVarDef *> 		deferredCopies;
 };
 
 typedef union eval_s {
@@ -317,6 +320,7 @@ public:
 	varEval_t				value;
 	idVarDef *				scope; 			// function, namespace, or object the var was defined in
 	int						numUsers;		// number of users if this is a constant
+	idVarDef *				copyOf;
 
 	typedef enum {
 		uninitialized, initializedVariable, initializedConstant, stackVariable

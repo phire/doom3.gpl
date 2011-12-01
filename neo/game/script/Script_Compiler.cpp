@@ -2214,6 +2214,11 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 		}
 	}
 
+	// And now that the stack variables are sorted out, deal with all those copies we have been deferring.
+	for (int i = 0; i < func->deferredCopies.Num(); i++) {		
+		func->deferredCopies[ i ]->value = func->deferredCopies[ i ]->copyOf->value;
+	}
+
 	// check if we should call the super class destructor
 	if ( oldscope->TypeDef()->Inherits( &type_object ) && !idStr::Icmp( name, "destroy" ) ) {
 		idTypeDef *superClass;
