@@ -11,8 +11,6 @@ INCLUDE_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 # Allow to link libs from there
 LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
-SET (core_LIBRARIES)
-
 # Most of the source now builds without this flag, but there are a 
 # few lines in SoundWorld.cpp which I'm unsure how to fix.
 SET (CMAKE_CXX_FLAGS "-fpermissive")
@@ -24,32 +22,27 @@ SET (CMAKE_CXX_FLAGS "-fpermissive")
 # Removed internal CURL, let CMake find it
 FIND_PACKAGE (CURL REQUIRED)
 
+FIND_PACKAGE (JPEG REQUIRED)
+INCLUDE_DIRECTORIES (${JPEG_INCLUDE_DIR})
+
 #Find Vorbis Libs
 FIND_PACKAGE (Vorbis REQUIRED)
-INCLUDE_DIRECTORIES (APPEND
-  ${VORBIS_INCLUDE_DIR}
-)
+INCLUDE_DIRECTORIES (${VORBIS_INCLUDE_DIR})
+FIND_PACKAGE (VorbisFile REQUIRED)
+INCLUDE_DIRECTORIES (${VORBISFILE_INCLUDE_DIR})
 
 # GL ?
 FIND_PACKAGE (OpenGL REQUIRED)
 INCLUDE_DIRECTORIES (${OPENGL_INCLUDE_DIR})
-LIST (APPEND core_LIBRARIES
-	${OPENGL_LIBRARIES})
 
 # OpenAL - external
 FIND_PACKAGE (OpenAL REQUIRED)
 INCLUDE_DIRECTORIES (${OPENAL_INCLUDE_DIR})
-IF (OPENAL_FOUND)
-	LIST (APPEND core_LIBRARIES
-		${OPENAL_LIBRARY})
-ENDIF ()
 
 IF (UNIX)
 	# X11
 	FIND_PACKAGE (X11 REQUIRED)
 	INCLUDE_DIRECTORIES (${X11_INCLUDE_DIR})
-	LIST (APPEND core_LIBRARIES
-		${X11_LIBRARIES})
 ENDIF ()
 
 #################################################
@@ -179,35 +172,6 @@ LIST (APPEND core_SOURCES
 	ui/Window.cpp
 	ui/Winvar.cpp)
  
-IF (FALSE)
-# ogg (Broken :()
-LIST (APPEND core_SOURCES
-	sound/OggVorbis/oggsrc/bitwise.c
-	sound/OggVorbis/oggsrc/framing.c
-	sound/OggVorbis/vorbissrc/analysis.c
-	sound/OggVorbis/vorbissrc/bitrate.c
-	sound/OggVorbis/vorbissrc/block.c
-	sound/OggVorbis/vorbissrc/codebook.c
-	sound/OggVorbis/vorbissrc/envelope.c
-	sound/OggVorbis/vorbissrc/floor0.c
-	sound/OggVorbis/vorbissrc/floor1.c
-	sound/OggVorbis/vorbissrc/info.c
-	sound/OggVorbis/vorbissrc/lookup.c
-	sound/OggVorbis/vorbissrc/lpc.c
-	sound/OggVorbis/vorbissrc/lsp.c
-	sound/OggVorbis/vorbissrc/mapping0.c
-	sound/OggVorbis/vorbissrc/mdct.c
-	sound/OggVorbis/vorbissrc/psy.c
-	sound/OggVorbis/vorbissrc/registry.c
-	sound/OggVorbis/vorbissrc/res0.c
-	sound/OggVorbis/vorbissrc/sharedbook.c
-	sound/OggVorbis/vorbissrc/smallft.c
-	sound/OggVorbis/vorbissrc/synthesis.c
-	sound/OggVorbis/vorbissrc/vorbisenc.c
-	sound/OggVorbis/vorbissrc/vorbisfile.c
-	sound/OggVorbis/vorbissrc/windowvb.c)
-ENDIF ()
-
 # sound
 LIST (APPEND core_SOURCES
 	sound/snd_cache.cpp
@@ -271,6 +235,7 @@ IF (UNIX)
 		sys/linux/main.cpp
 		sys/stub/util_stub.cpp)
 	IF (NOT DEDICATED)
+    ADD_DEFINITIONS(-DGLIMP -DID_GL_HARDLINK)
 		LIST (APPEND core_SOURCES
 			sys/linux/glimp.cpp
 			sys/posix/posix_input.cpp
@@ -299,6 +264,9 @@ TARGET_LINK_LIBRARIES (doom3
 	Xxf86vm
 	${OPENGL_gl_LIBRARY}
 	${OPENGL_glu_LIBRARY}
-	${VORBIS_LIBRARIES}
-	${CURL_LIBRARIES}
-	${core_LIBRARIES})
+	${VORBIS_LIBRARY}
+	${VORBISFILE_LIBRARY}
+	${OPENAL_LIBRARY}
+	${CURL_LIBRARY}
+	${JPEG_LIBRARY}
+	${X11_LIBRARIES})
