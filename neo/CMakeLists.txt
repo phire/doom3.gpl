@@ -48,6 +48,23 @@ ENDIF ()
 #################################################
 SET (core_SOURCES)
 
+ADD_CUSTOM_COMMAND (
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+  COMMAND m4 sys/linux/glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+  DEPENDS sys/linux/glimp_local.h.m4)
+ADD_CUSTOM_COMMAND (
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+  COMMAND m4 sys/linux/qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+  DEPENDS sys/linux/qgl_enforce.h.m4)
+
+INCLUDE_DIRECTORIES (${CMAKE_CURRENT_BINARY_DIR})
+
+SET (m4_SOURCES
+  glimp_logging.cpp.m4
+  glimp_stub.cpp.m4
+  glimp_dlopen.cpp.m4)
+
+
 # renderer
 LIST (APPEND core_SOURCES
 	renderer/Cinematic.cpp
@@ -233,12 +250,26 @@ IF (UNIX)
 		sys/posix/posix_threads.cpp
 		sys/linux/stack.cpp
 		sys/linux/main.cpp
+	  tools/compilers/dmap/optimize_gcc.cpp
 		sys/stub/util_stub.cpp)
 	IF (NOT DEDICATED)
     ADD_DEFINITIONS(-DGLIMP -DID_GL_HARDLINK)
+    FOREACH(f ${m4_SOURCES})
+      ADD_CUSTOM_COMMAND (
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
+        COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 ${f} > ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
+        DEPENDS sys/linux/${f})
+      LIST(APPEND core_SOURCES ${f}.cpp)
+    ENDFOREACH()
+  
+    ADD_CUSTOM_COMMAND (
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+      COMMAND ${CMAKE_COMMAND} -E chdir sys/gllog m4 gl_extensions.cpp.m4 > ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+      DEPENDS sys/gllog/gl_extensions.cpp.m4)
+
 		LIST (APPEND core_SOURCES
+      ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
 			sys/linux/glimp.cpp
-	    tools/compilers/dmap/optimize_gcc.cpp
 			sys/posix/posix_input.cpp
 			sys/linux/input.cpp
 			sys/linux/libXNVCtrl/NVCtrl.c)
