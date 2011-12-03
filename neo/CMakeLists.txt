@@ -238,6 +238,7 @@ IF (UNIX)
     ADD_DEFINITIONS(-DGLIMP -DID_GL_HARDLINK)
 		LIST (APPEND core_SOURCES
 			sys/linux/glimp.cpp
+	    tools/compilers/dmap/optimize_gcc.cpp
 			sys/posix/posix_input.cpp
 			sys/linux/input.cpp
 			sys/linux/libXNVCtrl/NVCtrl.c)
