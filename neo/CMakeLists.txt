@@ -50,11 +50,11 @@ SET (core_SOURCES)
 
 ADD_CUSTOM_COMMAND (
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
-  COMMAND m4 sys/linux/glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+  COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
   DEPENDS sys/linux/glimp_local.h.m4)
 ADD_CUSTOM_COMMAND (
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
-  COMMAND m4 sys/linux/qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+  COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
   DEPENDS sys/linux/qgl_enforce.h.m4)
 
 INCLUDE_DIRECTORIES (${CMAKE_CURRENT_BINARY_DIR})
@@ -269,6 +269,8 @@ IF (UNIX)
 
 		LIST (APPEND core_SOURCES
       ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+      ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+      ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
 			sys/linux/glimp.cpp
 			sys/posix/posix_input.cpp
 			sys/linux/input.cpp
