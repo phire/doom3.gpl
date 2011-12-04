@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 	Does not use memory allocation during parsing. The lexer uses no
 	memory allocation if a source is loaded with LoadMemory().
 	However, idToken may still allocate memory for large strings.
-	
+
 	A number directly following the escape character '\' in a string is
 	assumed to be in decimal format instead of octal. Binary numbers of
 	the form 0b.. or 0B.. can also be used.
@@ -182,7 +182,7 @@ public:
 	void			UnreadToken( const idToken *token );
 					// read a token only if on the same line
 	int				ReadTokenOnLine( idToken *token );
-		
+
 					//Returns the rest of the current line
 	const char*		ReadRestOfLine(idStr& out);
 

@@ -590,7 +590,7 @@ void idHeap::SmallFree( void *ptr ) {
 	((byte *)(ptr))[-1] = INVALID_ALLOC;
 
 	byte *d = ( (byte *)ptr ) - SMALL_HEADER_SIZE;
-	long *dt = (long *)ptr;
+	uintptr_t *dt = (uintptr_t *)ptr;
 	// index into the table with free small memory blocks
 	dword ix = *d;
 
@@ -599,7 +599,7 @@ void idHeap::SmallFree( void *ptr ) {
 		idLib::common->FatalError( "SmallFree: invalid memory block" );
 	}
 
-	*dt = (size_t)smallFirstFree[ix];	// write next index
+	*dt = (uintptr_t)smallFirstFree[ix];	// write next index
 	smallFirstFree[ix] = (void *)d;		// link
 }
 
