@@ -237,6 +237,7 @@ LIST (APPEND core_SOURCES
   tools/compilers/roqvq/roqParam.cpp
   tools/compilers/roqvq/codec.cpp
   tools/compilers/roqvq/NSBitmapImageRep.cpp
+  jpeg/jmemdatasrc.c
 	tools/compilers/renderbump/renderbump.cpp)
 ###
 
