@@ -231,6 +231,9 @@ LIST (APPEND core_SOURCES
 	tools/compilers/dmap/tritools.cpp
 	tools/compilers/dmap/ubrush.cpp
 	tools/compilers/dmap/usurface.cpp)
+
+LIST (APPEND core_SOURCES
+	tools/compilers/renderbump/renderbump.cpp)
 ###
 
 # GL
@@ -241,6 +244,7 @@ LIST (APPEND core_SOURCES
 # sys
 
 IF (UNIX)
+  INCLUDE_DIRECTORIES(sys/linux/oss/include)
 	LIST (APPEND core_SOURCES
 		sys/sys_local.cpp
 		sys/posix/posix_net.cpp
@@ -249,6 +253,7 @@ IF (UNIX)
 		sys/posix/posix_threads.cpp
 		sys/linux/stack.cpp
 		sys/linux/main.cpp
+		sys/linux/sound.cpp
 	  tools/compilers/dmap/optimize_gcc.cpp
 		sys/stub/util_stub.cpp)
 	IF (NOT DEDICATED)

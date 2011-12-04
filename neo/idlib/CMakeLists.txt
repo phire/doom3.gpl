@@ -45,5 +45,11 @@ SET (idlib_SOURCES
 	Timer.cpp
 	Heap.cpp)
 
+IF(UNIX)
+  LIST(APPEND idlib_SOURCES
+    bv/Frustum_gcc.cpp)
+ENDIF()
+
+
 ADD_LIBRARY (idlib
 	${idlib_SOURCES})
