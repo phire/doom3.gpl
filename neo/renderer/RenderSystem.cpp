@@ -282,7 +282,9 @@ static void R_CheckCvars( void ) {
 	}
 
 	// check for changes to logging state
+#ifndef DISABLE_GLIMP_LOGGING
 	GLimp_EnableLogging( r_logFile.GetInteger() != 0 );
+#endif
 }
 
 /*

@@ -6,6 +6,9 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
 # Options
 OPTION (DEDICATED "Dedicated" OFF)
 
+#Work around until glimp_logfuncs.cpp generation is included
+ADD_DEFINITIONS(-DDISABLE_GLIMP_LOGGING)
+
 # Allow subdirectories to access other subdirectories by #include <>
 INCLUDE_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 # Allow to link libs from there
