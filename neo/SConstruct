@@ -289,8 +289,6 @@ if ( g_sdk or SDK != '0' ):
 
 # general configuration, target selection --------
 
-g_build = BUILD_ROOT + '/' + BUILD
-
 SConsignFile( 'scons.signatures' )
 
 if ( GL_HARDLINK != '0' ):
@@ -350,18 +348,23 @@ if ( BUILD == 'debug-all' ):
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '1'
 elif ( BUILD == 'debug' ):
-	OPTCPPFLAGS = [ '-g', '-O1', '-D_DEBUG' ]
+	OPTCPPFLAGS = [ '-g', '-O1', '-D_DEBUG']
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '1'
 elif ( BUILD == 'release' ):
-	# -fomit-frame-pointer: "-O also turns on -fomit-frame-pointer on machines where doing so does not interfere with debugging."
-	#   on x86 have to set it explicitely
-	# -finline-functions: implicit at -O3
-	# -fschedule-insns2: implicit at -O2
-	# no-unsafe-math-optimizations: that should be on by default really. hit some wonko bugs in physics code because of that
-	OPTCPPFLAGS = [ '-O3', '-march=pentium3', '-Winline', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer' ]
+	if( cpu == 'x86' ):
+		# -fomit-frame-pointer: "-O also turns on -fomit-frame-pointer on machines where doing so does not interfere with debugging."
+		#   on x86 have to set it explicitely
+		# -finline-functions: implicit at -O3
+		# -fschedule-insns2: implicit at -O2
+		# no-unsafe-math-optimizations: that should be on by default really. hit some wonko bugs in physics code because of that
+		OPTCPPFLAGS = [ '-O3', '-march=pentium3', '-Winline', '-ffast-math', '-fno-unsafe-math-optimizations', '-fomit-frame-pointer' ]
+	else:
+		# generic optimisation flags for platforms that don't have hand tuned flags.
+		OPTCPPFLAGS = [ '-O3', '-Winline', '-ffast-math', '-fno-unsafe-math-optimizations' ]
 	if ( ID_MCHECK == '0' ):
 		ID_MCHECK = '2'
+		
 else:
 	print 'Unknown build configuration ' + BUILD
 	sys.exit(0)
@@ -383,6 +386,8 @@ if ( ID_NOLANADDRESS != '0' ):
 	
 if ( ID_MCHECK == '1' ):
 	BASECPPFLAGS.append( '-DID_MCHECK' )
+
+g_build = BUILD_ROOT + '/' + BUILD + "/" + cpu + "/"
 	
 # create the build environements
 g_base_env = Environment( ENV = os.environ, CC = CC, CXX = CXX, LINK = LINK, CPPFLAGS = BASECPPFLAGS, LINKFLAGS = BASELINKFLAGS, CPPPATH = CORECPPPATH, LIBPATH = CORELIBPATH )
