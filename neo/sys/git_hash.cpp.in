@@ -25,6 +25,9 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-const int BUILD_NUMBER = 1304;
-extern const char BUILD_HASH[];
 
+#include "framework/BuildVersion.h"
+
+// cmake automatically fills in GIT_SHA1 whenever the HEAD of the git repo changes
+#define GIT_SHA1 "@GIT_SHA1@"
+const char BUILD_HASH[] = GIT_SHA1;

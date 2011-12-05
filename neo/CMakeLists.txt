@@ -66,6 +66,11 @@ SET (m4_SOURCES
   glimp_stub.cpp.m4
   glimp_dlopen.cpp.m4)
 
+# Fill in build hash
+INCLUDE(GetGitRevisionDescription)
+GET_GIT_HEAD_REVISION(GIT_REFSPEC GIT_SHA1)
+CONFIGURE_FILE("sys/git_hash.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/git_hash.cpp" @ONLY)
+LIST (APPEND core_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/git_hash.cpp")
 
 # renderer
 LIST (APPEND core_SOURCES
