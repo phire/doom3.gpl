@@ -30,9 +30,15 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 
 #include "snd_local.h"
-#include "OggVorbis/vorbis/codec.h"
-#include "OggVorbis/vorbis/vorbisfile.h"
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
 
+/* Add stream to OggVorbis_File struct */
+class idOggVorbis_File : public OggVorbis_File
+{
+public:
+	int stream;
+};
 
 /*
 ===================================================================================
@@ -171,7 +177,7 @@ int idWaveFile::OpenOGG( const char* strFileName, waveformatex_t *pwfx ) {
 
 	Sys_EnterCriticalSection( CRITICAL_SECTION_ONE );
 
-	ov = new OggVorbis_File;
+	ov = new idOggVorbis_File;
 
 	if( ov_openFile( mhmmio, ov ) < 0 ) {
 		delete ov;
@@ -230,7 +236,8 @@ int idWaveFile::ReadOGG( byte* pBuffer, int dwSizeToRead, int *pdwSizeRead ) {
 	OggVorbis_File *ov = (OggVorbis_File *) ogg;
 
 	do {
-		int ret = ov_read( ov, bufferPtr, total >= 4096 ? 4096 : total, Swap_IsBigEndian(), 2, 1, &ov->stream );
+		idOggVorbis_File *idOV = (idOggVorbis_File*)ov;
+		int ret = ov_read( ov, bufferPtr, total >= 4096 ? 4096 : total, Swap_IsBigEndian(), 2, 1, &idOV->stream );
 		if ( ret == 0 ) {
 			break;
 		}
@@ -548,8 +555,9 @@ int idSampleDecoderLocal::DecodeOGG( idSoundSample *sample, int sampleOffset44k,
 	totalSamples = sampleCount;
 	readSamples = 0;
 	do {
+		idOggVorbis_File *idOV = (idOggVorbis_File*)&ogg;
 		float **samples;
-		int ret = ov_read_float( &ogg, &samples, totalSamples / sample->objectInfo.nChannels, &ogg.stream );
+		int ret = ov_read_float( &ogg, &samples, totalSamples / sample->objectInfo.nChannels, &idOV->stream );
 		if ( ret == 0 ) {
 			failed = true;
 			break;
