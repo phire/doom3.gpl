@@ -5,6 +5,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
 
 # Options
 OPTION (DEDICATED "Dedicated" OFF)
+OPTION (GAME_DLL "Build a seperate game library that gets dynamically linked at runtime" OFF)
 
 #Work around until glimp_logfuncs.cpp generation is included
 ADD_DEFINITIONS(-DDISABLE_GLIMP_LOGGING)
@@ -16,7 +17,7 @@ LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
 # Most of the source now builds without this flag, but there are a 
 # few lines in SoundWorld.cpp which I'm unsure how to fix.
-SET (CMAKE_CXX_FLAGS "-fpermissive")
+SET (CMAKE_CXX_FLAGS "-fpermissive -fvisibility=hidden ")
 
 #################################################
 # PACKAGES
@@ -429,13 +430,26 @@ ENDIF()
 # So we just append to core sources
 LIST(APPEND core_SOURCES ${idlib_SOURCES})
 
-# Same goes for game
-LIST(APPEND core_SOURCES ${game_SOURCES})
+IF(GAME_DLL)
+	#idlib gets built twice, with diffrent defines
+	LIST(APPEND game_SOURCES ${idlib_SOURCES})
 
+	ADD_LIBRARY (gamex86_64 SHARED
+		${game_SOURCES})
+	SET_TARGET_PROPERTIES(gamex86_64 PROPERTIES COMPILE_FLAGS "-DGAME_DLL")
+	SET_TARGET_PROPERTIES(gamex86_64 PROPERTIES PREFIX "")
+ELSE()
+	# Otherwise we just append game to the main exe
+	LIST(APPEND core_SOURCES ${game_SOURCES})
+ENDIF()
 
 # Core (actual Doom3 sources)
 ADD_EXECUTABLE (doom3
 	${core_SOURCES})
+
+IF(GAME_DLL)
+	SET_TARGET_PROPERTIES(doom3 PROPERTIES COMPILE_FLAGS "-D__DOOM_DLL__")
+ENDIF()
 
 TARGET_LINK_LIBRARIES (doom3
 	pthread
