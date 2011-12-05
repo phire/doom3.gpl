@@ -53,11 +53,11 @@ SET (core_SOURCES)
 
 ADD_CUSTOM_COMMAND (
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
-  COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
   DEPENDS sys/linux/glimp_local.h.m4)
 ADD_CUSTOM_COMMAND (
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
-  COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
   DEPENDS sys/linux/qgl_enforce.h.m4)
 
 INCLUDE_DIRECTORIES (${CMAKE_CURRENT_BINARY_DIR})
@@ -275,13 +275,13 @@ IF (UNIX)
     FOREACH(f ${m4_SOURCES})
       ADD_CUSTOM_COMMAND (
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
-        COMMAND ${CMAKE_COMMAND} -E chdir sys/linux m4 ${f} > ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
+        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 ${f} > ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
         DEPENDS sys/linux/${f})
     ENDFOREACH()
   
     ADD_CUSTOM_COMMAND (
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
-      COMMAND ${CMAKE_COMMAND} -E chdir sys/gllog m4 gl_extensions.cpp.m4 > ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+      COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/gllog m4 gl_extensions.cpp.m4 > ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
       DEPENDS sys/gllog/gl_extensions.cpp.m4)
 
 		LIST (APPEND core_SOURCES
