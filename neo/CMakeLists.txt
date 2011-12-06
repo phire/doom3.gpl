@@ -6,6 +6,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
 # Options
 OPTION (DEDICATED "Dedicated" OFF)
 OPTION (GAME_DLL "Build a seperate game library that gets dynamically linked at runtime" OFF)
+OPTION (FORCE32 "Force a 32 bit built on 64 bit systems" OFF)
 
 #Work around until glimp_logfuncs.cpp generation is included
 ADD_DEFINITIONS(-DDISABLE_GLIMP_LOGGING)
@@ -15,9 +16,37 @@ INCLUDE_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 # Allow to link libs from there
 LINK_DIRECTORIES (${CMAKE_CURRENT_SOURCE_DIR})
 
-# Most of the source now builds without this flag, but there are a 
-# few lines in SoundWorld.cpp which I'm unsure how to fix.
-SET (CMAKE_CXX_FLAGS "-fpermissive -fvisibility=hidden ")
+# CPU architecture 
+IF (UNIX)
+	EXECUTE_PROCESS (COMMAND uname -m OUTPUT_VARIABLE CPU OUTPUT_STRIP_TRAILING_WHITESPACE)
+	IF (CPU STREQUAL "POWERPC")
+		SET (CPU "PPC")
+	ELSEIF (CPU MATCHES "i.86")
+		SET (CPU "X86")
+	ENDIF()
+ELSE()
+	# We are just going to assume that anything not unix is x86
+	# Someone should add a check for x86_64 windows later
+	SET (CPU "x86")
+ENDIF()
+
+# Compiler flags
+IF (CMAKE_COMPILER_IS_GNUCXX) # GCC
+	# Most of the source now builds without this flag, but there are a 
+	# few lines in SoundWorld.cpp which I'm unsure how to fix.
+	SET (CMAKE_CXX_FLAGS "-fpermissive -fvisibility=hidden")
+	SET (CMAKE_C_FLAGS "-fvisibility=hidden")
+
+	IF (FORCE32)
+		SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+		SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+		SET (CPU "x86")
+	ENDIF()
+ELSEIF (MSVC) # Visual Studio flags go here
+	SET (CMAKE_CXX_FLAGS "")
+	SET (CMAKE_C_FLAGS "")
+ENDIF()
+
 
 #################################################
 # PACKAGES
@@ -434,10 +463,10 @@ IF(GAME_DLL)
 	#idlib gets built twice, with diffrent defines
 	LIST(APPEND game_SOURCES ${idlib_SOURCES})
 
-	ADD_LIBRARY (gamex86_64 SHARED
+	ADD_LIBRARY (game${CPU} SHARED
 		${game_SOURCES})
-	SET_TARGET_PROPERTIES(gamex86_64 PROPERTIES COMPILE_FLAGS "-DGAME_DLL")
-	SET_TARGET_PROPERTIES(gamex86_64 PROPERTIES PREFIX "")
+	SET_TARGET_PROPERTIES(game${CPU} PROPERTIES COMPILE_FLAGS "-DGAME_DLL")
+	SET_TARGET_PROPERTIES(game${CPU} PROPERTIES PREFIX "")
 ELSE()
 	# Otherwise we just append game to the main exe
 	LIST(APPEND core_SOURCES ${game_SOURCES})
