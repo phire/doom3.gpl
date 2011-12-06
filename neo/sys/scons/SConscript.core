@@ -3,7 +3,7 @@
 # TTimo <ttimo@idsoftware.com>
 # http://scons.sourceforge.net
 
-import sys, os
+import sys, os, re
 import scons_utils
 
 Import( 'GLOBALS' )
@@ -274,8 +274,21 @@ source_list += [ '../../openal/stubs.cpp' ]
 
 source_list += g_env_noopt.StaticObject( '../../tools/compilers/dmap/optimize_gcc.cpp' )
 
+# git hash
+# This is a bit hacky, but scons is getting replaced soon and I can't be bothered working out the propper way
+print os.getcwd()
+with open("../../sys/git_hash.cpp.in") as f:
+	generated_source = f.read()
+with os.popen("git rev-parse HEAD") as p:
+	git_sha1 = p.read()[:-1]
+generated_source = re.sub(r"@GIT_SHA1@", git_sha1, generated_source)
+with open('../../git_hash.cpp', 'w') as out:
+	out.write(generated_source)
+source_list += [ '../../git_hash.cpp' ]
+
 if ( local_gamedll == 0 ):
 	source_list += game_objects
 
 d3wm = local_env.Program( target = 'doom', source = source_list )
+
 Return( 'd3wm' )
