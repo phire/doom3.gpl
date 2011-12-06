@@ -1962,7 +1962,6 @@ void idMultiplayerGame::Run() {
 				fragLimitTimeout = 0;
 			}
 			break;
-		default: break;
 		}
 		default: break;
 	}
