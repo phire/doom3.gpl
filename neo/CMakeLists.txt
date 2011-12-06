@@ -7,6 +7,7 @@ SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules/")
 OPTION (DEDICATED "Dedicated" OFF)
 OPTION (GAME_DLL "Build a seperate game library that gets dynamically linked at runtime" OFF)
 OPTION (FORCE32 "Force a 32 bit built on 64 bit systems" OFF)
+OPTION (ALSA "Enable ALSA backend support" ON)
 
 #Work around until glimp_logfuncs.cpp generation is included
 ADD_DEFINITIONS(-DDISABLE_GLIMP_LOGGING)
@@ -32,10 +33,10 @@ ENDIF()
 
 # Compiler flags
 IF (CMAKE_COMPILER_IS_GNUCXX) # GCC
-	# Most of the source now builds without this flag, but there are a 
+	# Most of the source now builds without the -fpermissive flag, but there are a 
 	# few lines in SoundWorld.cpp which I'm unsure how to fix.
-	SET (CMAKE_CXX_FLAGS "-fpermissive -fvisibility=hidden")
-	SET (CMAKE_C_FLAGS "-fvisibility=hidden")
+	SET (CMAKE_CXX_FLAGS "-fpermissive -fvisibility=hidden -Wall -Wno-unknown-pragmas")
+	SET (CMAKE_C_FLAGS "-fvisibility=hidden -Wall -Wno-unknown-pragmas")
 
 	IF (FORCE32)
 		SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
@@ -72,7 +73,7 @@ INCLUDE_DIRECTORIES (${OPENGL_INCLUDE_DIR})
 FIND_PACKAGE (OpenAL REQUIRED)
 INCLUDE_DIRECTORIES (${OPENAL_INCLUDE_DIR})
 
-IF (UNIX)
+IF (UNIX AND NOT APPLE) # Despite being unix, Apple doesn't primarily use X11
 	# X11
 	FIND_PACKAGE (X11 REQUIRED)
 	INCLUDE_DIRECTORIES (${X11_INCLUDE_DIR})
@@ -80,21 +81,6 @@ ENDIF ()
 
 #################################################
 SET (core_SOURCES)
-
-ADD_CUSTOM_COMMAND (
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
-  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
-  DEPENDS sys/linux/glimp_local.h.m4)
-ADD_CUSTOM_COMMAND (
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
-  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
-  DEPENDS sys/linux/qgl_enforce.h.m4)
-
-INCLUDE_DIRECTORIES (${CMAKE_CURRENT_BINARY_DIR})
-
-SET (m4_SOURCES
-  glimp_stub.cpp.m4
-  glimp_dlopen.cpp.m4)
 
 # Fill in build hash
 INCLUDE(GetGitRevisionDescription)
@@ -285,9 +271,23 @@ LIST (APPEND core_SOURCES
 ###
 
 # sys
+IF (UNIX AND NOT APPLE)
+	ADD_CUSTOM_COMMAND (
+	  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+	  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 glimp_local.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+	  DEPENDS sys/linux/glimp_local.h.m4)
+	ADD_CUSTOM_COMMAND (
+	  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+	  COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 qgl_enforce.h.m4 > ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+	  DEPENDS sys/linux/qgl_enforce.h.m4)
 
-IF (UNIX)
-  INCLUDE_DIRECTORIES(sys/linux/oss/include)
+	INCLUDE_DIRECTORIES (${CMAKE_CURRENT_BINARY_DIR})
+
+	SET (m4_SOURCES
+	  glimp_stub.cpp.m4
+	  glimp_dlopen.cpp.m4)
+
+	INCLUDE_DIRECTORIES(sys/linux/oss/include)
 	LIST (APPEND core_SOURCES
 		sys/sys_local.cpp
 		sys/posix/posix_net.cpp
@@ -297,37 +297,41 @@ IF (UNIX)
 		sys/linux/stack.cpp
 		sys/linux/main.cpp
 		sys/linux/sound.cpp
-		sys/linux/sound_alsa.cpp
-	  tools/compilers/dmap/optimize_gcc.cpp
+		tools/compilers/dmap/optimize_gcc.cpp
 		sys/stub/util_stub.cpp)
+	IF (ALSA) 
+		LIST (APPEND core_SOURCES sys/linux/sound_alsa.cpp)
+	ELSE()
+		ADD_DEFINITIONS(-DNO_ALSA)
+	ENDIF()
 	IF (NOT DEDICATED)
-    ADD_DEFINITIONS(-DGLIMP)
-    FOREACH(f ${m4_SOURCES})
-      ADD_CUSTOM_COMMAND (
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
-        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 ${f} > ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
-        DEPENDS sys/linux/${f})
-    ENDFOREACH()
+	    ADD_DEFINITIONS(-DGLIMP)
+	    FOREACH(f ${m4_SOURCES})
+	      ADD_CUSTOM_COMMAND (
+	        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
+	        COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/linux m4 ${f} > ${CMAKE_CURRENT_BINARY_DIR}/${f}.cpp
+	        DEPENDS sys/linux/${f})
+	    ENDFOREACH()
   
-    ADD_CUSTOM_COMMAND (
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
-      COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/gllog m4 gl_extensions.cpp.m4 > ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
-      DEPENDS sys/gllog/gl_extensions.cpp.m4)
+	    ADD_CUSTOM_COMMAND (
+	      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+	      COMMAND ${CMAKE_COMMAND} -E chdir ${CMAKE_SOURCE_DIR}/sys/gllog m4 gl_extensions.cpp.m4 > ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+	      DEPENDS sys/gllog/gl_extensions.cpp.m4)
 
-		LIST (APPEND core_SOURCES
-      ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
-      ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
-      ${CMAKE_CURRENT_BINARY_DIR}/glimp_dlopen.cpp.m4.cpp
-			sys/linux/glimp.cpp
-			sys/posix/posix_input.cpp
-			sys/linux/input.cpp
-			sys/linux/libXNVCtrl/NVCtrl.c)
+	    LIST (APPEND core_SOURCES
+	      ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+	      ${CMAKE_CURRENT_BINARY_DIR}/glimp_local.h
+	      ${CMAKE_CURRENT_BINARY_DIR}/qgl_enforce.h
+	      ${CMAKE_CURRENT_BINARY_DIR}/glimp_dlopen.cpp.m4.cpp
+		sys/linux/glimp.cpp
+		sys/posix/posix_input.cpp
+		sys/linux/input.cpp
+		sys/linux/libXNVCtrl/NVCtrl.c)
 	ELSE ()
-		LIST (APPEND core_SOURCES
-      ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
-      ${CMAKE_CURRENT_BINARY_DIR}/glimp_stub.cpp.m4.cpp
-			linux/dedicated.cpp)
+	    LIST (APPEND core_SOURCES
+	      ${CMAKE_CURRENT_BINARY_DIR}/gl_extensions.cpp
+	      ${CMAKE_CURRENT_BINARY_DIR}/glimp_stub.cpp.m4.cpp
+		linux/dedicated.cpp)
 	ENDIF ()
 ENDIF ()
 
